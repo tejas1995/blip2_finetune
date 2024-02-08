@@ -1,0 +1,46 @@
+model_class: "blip2"
+model_shorthand: "blip2_flant5xl"
+pt_model_load:
+  name: "blip2_t5"
+  type: "pretrain_flant5xl"
+
+  model_config:
+    arch: pretrain_flant5xl
+    load_finetuned: False
+
+    pretrained: "https://storage.googleapis.com/sfr-vision-language-research/LAVIS/models/BLIP2/blip2_pretrained_flant5xl.pth"
+    finetuned: ""
+
+    # vit encoder
+    image_size: 364
+    img_size: 364
+    drop_path_rate: 0
+    use_grad_checkpoint: False
+    vit_precision: "fp16"
+    freeze_vit: True
+    max_txt_len: 128
+
+    # Q-Former
+    num_query_token: 32
+
+    # T5
+    t5_model: "google/flan-t5-xl"
+
+    # generation configs
+    prompt: ""
+
+  preprocess_config:
+      vis_processor:
+          train:
+            name: "blip_image_train"
+            image_size: 364
+          eval:
+            name: "blip_image_eval"
+            image_size: 364
+      text_processor:
+          train:
+            name: "blip_caption"
+            max_words: 128
+          eval:
+            name: "blip_caption"
+            max_words: 128
